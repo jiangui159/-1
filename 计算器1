@@ -1,0 +1,65 @@
+Widget.h
+
+#ifndef WIDGET_H
+#define WIDGET_H
+
+#include <QWidget>
+#include <QPushButton>
+
+class Widget : public QWidget
+{
+    Q_OBJECT
+
+public:
+    Widget(QWidget *parent = 0);
+    ~Widget();
+private:
+    QPushButton _1;
+    QPushButton _2;
+
+};
+
+
+
+main.cpp
+
+#include "widget.h"
+#include <QApplication>
+#include <QPushButton>
+
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    Widget w;
+
+    w.show();
+
+    return a.exec();
+}
+
+Widget.cpp
+
+#include "widget.h"
+#include <QPushButton>
+Widget::Widget(QWidget *parent)
+    : QWidget(parent)
+{
+    this->setWindowTitle(QString("计算器"));
+    _1.setText("1");
+    _1.setParent(this);
+    _1.move(100,100);
+    _2.setParent(this);
+    _2.setText("2");
+    _2.move(150,100);
+
+
+
+}
+
+Widget::~Widget()
+{
+
+}
+
+
+#endif // WIDGET_H
