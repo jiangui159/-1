@@ -1,0 +1,873 @@
+.pro
+
+#-------------------------------------------------
+#
+# Project created by QtCreator 2020-09-08T15:12:21
+#
+#-------------------------------------------------
+
+QT       += core gui
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+TARGET = untitled2
+TEMPLATE = app
+
+# The following define makes your compiler emit warnings if you use
+# any feature of Qt which has been marked as deprecated (the exact warnings
+# depend on your compiler). Please consult the documentation of the
+# deprecated API in order to know how to port your code away from it.
+DEFINES += QT_DEPRECATED_WARNINGS
+
+# You can also make your code fail to compile if you use deprecated APIs.
+# In order to do so, uncomment the following line.
+# You can also select to disable deprecated APIs only up to a certain version of Qt.
+#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+
+CONFIG += c++11
+
+SOURCES += \
+        main.cpp \
+        mainwindow.cpp
+
+HEADERS += \
+        mainwindow.h
+
+FORMS += \
+        mainwindow.ui
+
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target
+
+
+mainwindows.h
+
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+
+#include <QMainWindow>
+#include <QtMath>
+
+namespace Ui {
+class MainWindow;
+}
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
+
+private:
+    double shuzi1;
+    double shuzi2;
+    double result;
+    int jinzhi;
+    char zifu1;
+    char zifu2;
+    int flag;
+    QString xianshi;
+
+public:
+    void tojinzhi(int);
+    void dataa();
+    void jisuan(char);
+
+private slots:
+    void on__1_clicked();
+
+    void on__2_clicked();
+
+    void on__3_clicked();
+
+    void on__4_clicked();
+
+    void on__5_clicked();
+
+    void on__6_clicked();
+
+    void on__7_clicked();
+
+    void on__8_clicked();
+
+    void on__9_clicked();
+
+    void on__0_clicked();
+
+    void on_point_clicked();
+
+    void on_leftk_clicked();
+
+    void on_rightk_clicked();
+
+    void on_AC_clicked();
+
+    void on_a_clicked();
+
+    void on_b_clicked();
+
+    void on_c_clicked();
+
+    void on_d_clicked();
+
+    void on_e_clicked();
+
+    void on_delete_2_clicked();
+
+    void on_add_clicked();
+
+    void on_equ_clicked();
+
+    void on_x_clicked();
+
+    void on_f_clicked();
+
+    void on_bin_clicked();
+
+    void on_sub_clicked();
+
+    void on_mul_clicked();
+
+    void on_divide_clicked();
+
+    void on_compare_clicked();
+
+    void on_yueshu_clicked();
+
+    void on_beishu_clicked();
+
+private:
+    Ui::MainWindow *ui;
+};
+
+#endif // MAINWINDOW_H
+
+
+
+main.cpp
+
+#include "mainwindow.h"
+#include <QApplication>
+
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+
+    return a.exec();
+}
+
+
+mainwindow.cpp
+
+
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include <QDebug>
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    dataa();
+
+
+}
+
+void MainWindow::dataa(){
+    shuzi1=0;
+    shuzi2=0;
+    result=0;
+    jinzhi=10;
+    zifu1='\0';
+    zifu2='\0';
+    xianshi="";
+    flag=0;
+}
+
+void MainWindow::jisuan(char x)
+{
+    if(x=='+'){
+        result=shuzi1+shuzi2;
+        //qDebug()<<result;
+        shuzi1=result;
+        shuzi2=0;
+    }
+    if(x=='-'){
+        result=shuzi1-shuzi2;
+        shuzi1=result;
+        shuzi2=0;
+        //qDebug()<<result;
+    }
+    if(x=='*'){
+        result=shuzi1*shuzi2;
+        shuzi1=result;
+        shuzi2=0;
+        //qDebug()<<result;
+    }
+    if(x=='/'){
+        result=shuzi1/shuzi2;
+        shuzi1=result;
+        shuzi2=0;
+        //qDebug()<<result;
+    }
+    if(x=='c'){
+        if(shuzi1>shuzi2){
+            QString str=QString::number(shuzi1);
+            xianshi+=str;
+            ui->text->setText(xianshi);
+            xianshi+='>';
+            ui->text->setText(xianshi);
+            str=QString::number(shuzi2);
+            xianshi+=str;
+            ui->text->setText(xianshi);
+        }
+        else if (shuzi1==shuzi2) {
+            QString str=QString::number(shuzi1);
+            xianshi+=str;
+            ui->text->setText(xianshi);
+            xianshi+='=';
+            ui->text->setText(xianshi);
+            str=QString::number(shuzi2);
+            xianshi+=str;
+            ui->text->setText(xianshi);
+        }
+        else {
+            QString str=QString::number(shuzi1);
+            xianshi+=str;
+            ui->text->setText(xianshi);
+            xianshi+='<';
+            ui->text->setText(xianshi);
+            str=QString::number(shuzi2);
+            xianshi+=str;
+            ui->text->setText(xianshi);
+        }
+    }
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::tojinzhi(int n){
+     if(flag){
+         shuzi2=jinzhi*shuzi2+n;
+
+     }
+     else{
+         shuzi1=jinzhi*shuzi1+n;
+         //qDebug()<<shuzi1;
+     }
+}
+
+void MainWindow::on__1_clicked()
+{
+
+    tojinzhi(1);
+    xianshi +="1" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__2_clicked()
+{
+    tojinzhi(2);
+    xianshi +="2" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__3_clicked()
+{
+    tojinzhi(3);
+    xianshi +="3" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__4_clicked()
+{
+    tojinzhi(4);
+    xianshi +="4" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__5_clicked()
+{
+    tojinzhi(5);
+    xianshi +="5" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__6_clicked()
+{
+    tojinzhi(6);
+    xianshi +="6" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__7_clicked()
+{
+    tojinzhi(7);
+    xianshi +="7" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__8_clicked()
+{
+    tojinzhi(8);
+    xianshi +="8" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__9_clicked()
+{
+    tojinzhi(9);
+    xianshi +="9" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__0_clicked()
+{
+    tojinzhi(0);
+    xianshi +="0" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_a_clicked()
+{
+    tojinzhi(10);
+    xianshi +="A" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_b_clicked()
+{
+    tojinzhi(11);
+    xianshi +="B" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_c_clicked()
+{
+    tojinzhi(12);
+    xianshi +="C" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_d_clicked()
+{
+    tojinzhi(13);
+    xianshi +="D" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_e_clicked()
+{
+    tojinzhi(14);
+    xianshi +="E" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_f_clicked()
+{
+    tojinzhi(15);
+    xianshi +="F" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_x_clicked()
+{
+    jinzhi=16;
+    xianshi +="x" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_bin_clicked()
+{
+    jinzhi=2;
+}
+
+void MainWindow::on_leftk_clicked()
+{
+    ui->text->insert("(");
+}
+
+void MainWindow::on_rightk_clicked()
+{
+    ui->text->insert(")");
+}
+
+void MainWindow::on_AC_clicked()
+{
+    ui->text->clear();
+    dataa();
+}
+
+void MainWindow::on_add_clicked()
+{
+    zifu1=zifu2;
+    flag=1;
+    zifu2='+';
+    xianshi+=zifu2;
+    jinzhi=10;
+    ui->text->setText(xianshi);
+    if(shuzi2!=0.0){
+
+        jisuan(zifu1);
+    }
+}
+
+void MainWindow::on_sub_clicked()
+{
+    zifu1=zifu2;
+    flag=1;
+    zifu2='-';
+    xianshi+=zifu2;
+    jinzhi=10;
+    ui->text->setText(xianshi);
+    if(shuzi2!=0.0){
+
+        jisuan(zifu1);
+    }
+}
+
+void MainWindow::on_mul_clicked()
+{
+    zifu1=zifu2;
+    flag=1;
+    zifu2='*';
+    xianshi+=zifu2;
+    jinzhi=10;
+    ui->text->setText(xianshi);
+    if(shuzi2!=0.0){
+
+        jisuan(zifu1);
+    }
+}
+
+void MainWindow::on_divide_clicked()
+{
+    zifu1=zifu2;
+    flag=1;
+    zifu2='/';
+    xianshi+=zifu2;
+    jinzhi=10;
+    ui->text->setText(xianshi);
+    if(shuzi2!=0.0){
+
+        jisuan(zifu1);
+    }
+}
+
+void MainWindow::on_equ_clicked()
+{
+
+    if(zifu2!='c'&&zifu2!='y'&&zifu2!='b'){
+
+        xianshi+='=';
+        ui->text->setText(xianshi);
+        //qDebug()<<result;
+        QString str=QString::number(result);
+        xianshi+=str;
+        ui->text->setText(xianshi);
+    }
+    else {
+        xianshi+=' ';
+        ui->text->setText(xianshi);
+    }
+    jisuan(zifu2);
+}
+
+void MainWindow::on_compare_clicked()
+{
+    zifu2='c';
+    flag=1;
+    xianshi+=" ";
+    ui->text->setText(xianshi);
+    if(shuzi2!=0.0){
+
+        jisuan(zifu2);
+    }
+}
+
+void MainWindow::on_yueshu_clicked()
+{
+    zifu2='y';
+    flag=1;
+    xianshi+=" ";
+    ui->text->setText(xianshi);
+    if(shuzi2!=0.0){
+
+        jisuan(zifu2);
+    }
+}
+
+void MainWindow::on_beishu_clicked()
+{
+    zifu2='b';
+    flag=1;
+    xianshi+=" ";
+    ui->text->setText(xianshi);
+    if(shuzi2!=0.0){
+
+        jisuan(zifu2);
+    }
+}
+
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include <QDebug>
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    dataa();
+
+
+}
+
+void MainWindow::dataa(){
+    shuzi1=0;
+    shuzi2=0;
+    result=0;
+    jinzhi=10;
+    zifu1='\0';
+    zifu2='\0';
+    xianshi="";
+    flag=0;
+}
+
+void MainWindow::jisuan(char x)
+{
+    if(x=='+'){
+        result=shuzi1+shuzi2;
+        //qDebug()<<result;
+        shuzi1=result;
+        shuzi2=0;
+    }
+    if(x=='-'){
+        result=shuzi1-shuzi2;
+        shuzi1=result;
+        shuzi2=0;
+        //qDebug()<<result;
+    }
+    if(x=='*'){
+        result=shuzi1*shuzi2;
+        shuzi1=result;
+        shuzi2=0;
+        //qDebug()<<result;
+    }
+    if(x=='/'){
+        result=shuzi1/shuzi2;
+        shuzi1=result;
+        shuzi2=0;
+        //qDebug()<<result;
+    }
+    if(x=='c'){
+        if(shuzi1>shuzi2){
+            QString str=QString::number(shuzi1);
+            xianshi+=str;
+            ui->text->setText(xianshi);
+            xianshi+='>';
+            ui->text->setText(xianshi);
+            str=QString::number(shuzi2);
+            xianshi+=str;
+            ui->text->setText(xianshi);
+        }
+        else if (shuzi1==shuzi2) {
+            QString str=QString::number(shuzi1);
+            xianshi+=str;
+            ui->text->setText(xianshi);
+            xianshi+='=';
+            ui->text->setText(xianshi);
+            str=QString::number(shuzi2);
+            xianshi+=str;
+            ui->text->setText(xianshi);
+        }
+        else {
+            QString str=QString::number(shuzi1);
+            xianshi+=str;
+            ui->text->setText(xianshi);
+            xianshi+='<';
+            ui->text->setText(xianshi);
+            str=QString::number(shuzi2);
+            xianshi+=str;
+            ui->text->setText(xianshi);
+        }
+    }
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::tojinzhi(int n){
+     if(flag){
+         shuzi2=jinzhi*shuzi2+n;
+
+     }
+     else{
+         shuzi1=jinzhi*shuzi1+n;
+         //qDebug()<<shuzi1;
+     }
+}
+
+void MainWindow::on__1_clicked()
+{
+
+    tojinzhi(1);
+    xianshi +="1" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__2_clicked()
+{
+    tojinzhi(2);
+    xianshi +="2" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__3_clicked()
+{
+    tojinzhi(3);
+    xianshi +="3" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__4_clicked()
+{
+    tojinzhi(4);
+    xianshi +="4" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__5_clicked()
+{
+    tojinzhi(5);
+    xianshi +="5" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__6_clicked()
+{
+    tojinzhi(6);
+    xianshi +="6" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__7_clicked()
+{
+    tojinzhi(7);
+    xianshi +="7" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__8_clicked()
+{
+    tojinzhi(8);
+    xianshi +="8" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__9_clicked()
+{
+    tojinzhi(9);
+    xianshi +="9" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__0_clicked()
+{
+    tojinzhi(0);
+    xianshi +="0" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_a_clicked()
+{
+    tojinzhi(10);
+    xianshi +="A" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_b_clicked()
+{
+    tojinzhi(11);
+    xianshi +="B" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_c_clicked()
+{
+    tojinzhi(12);
+    xianshi +="C" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_d_clicked()
+{
+    tojinzhi(13);
+    xianshi +="D" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_e_clicked()
+{
+    tojinzhi(14);
+    xianshi +="E" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_f_clicked()
+{
+    tojinzhi(15);
+    xianshi +="F" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_x_clicked()
+{
+    jinzhi=16;
+    xianshi +="x" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_bin_clicked()
+{
+    jinzhi=2;
+}
+
+void MainWindow::on_leftk_clicked()
+{
+    ui->text->insert("(");
+}
+
+void MainWindow::on_rightk_clicked()
+{
+    ui->text->insert(")");
+}
+
+void MainWindow::on_AC_clicked()
+{
+    ui->text->clear();
+    dataa();
+}
+
+void MainWindow::on_add_clicked()
+{
+    zifu1=zifu2;
+    flag=1;
+    zifu2='+';
+    xianshi+=zifu2;
+    jinzhi=10;
+    ui->text->setText(xianshi);
+    if(shuzi2!=0.0){
+
+        jisuan(zifu1);
+    }
+}
+
+void MainWindow::on_sub_clicked()
+{
+    zifu1=zifu2;
+    flag=1;
+    zifu2='-';
+    xianshi+=zifu2;
+    jinzhi=10;
+    ui->text->setText(xianshi);
+    if(shuzi2!=0.0){
+
+        jisuan(zifu1);
+    }
+}
+
+void MainWindow::on_mul_clicked()
+{
+    zifu1=zifu2;
+    flag=1;
+    zifu2='*';
+    xianshi+=zifu2;
+    jinzhi=10;
+    ui->text->setText(xianshi);
+    if(shuzi2!=0.0){
+
+        jisuan(zifu1);
+    }
+}
+
+void MainWindow::on_divide_clicked()
+{
+    zifu1=zifu2;
+    flag=1;
+    zifu2='/';
+    xianshi+=zifu2;
+    jinzhi=10;
+    ui->text->setText(xianshi);
+    if(shuzi2!=0.0){
+
+        jisuan(zifu1);
+    }
+}
+
+void MainWindow::on_equ_clicked()
+{
+
+    if(zifu2!='c'&&zifu2!='y'&&zifu2!='b'){
+
+        xianshi+='=';
+        ui->text->setText(xianshi);
+        //qDebug()<<result;
+        QString str=QString::number(result);
+        xianshi+=str;
+        ui->text->setText(xianshi);
+    }
+    else {
+        xianshi+=' ';
+        ui->text->setText(xianshi);
+    }
+    jisuan(zifu2);
+}
+
+void MainWindow::on_compare_clicked()
+{
+    zifu2='c';
+    flag=1;
+    xianshi+=" ";
+    ui->text->setText(xianshi);
+    if(shuzi2!=0.0){
+
+        jisuan(zifu2);
+    }
+}
+
+void MainWindow::on_yueshu_clicked()
+{
+    zifu2='y';
+    flag=1;
+    xianshi+=" ";
+    ui->text->setText(xianshi);
+    if(shuzi2!=0.0){
+
+        jisuan(zifu2);
+    }
+}
+
+void MainWindow::on_beishu_clicked()
+{
+    zifu2='b';
+    flag=1;
+    xianshi+=" ";
+    ui->text->setText(xianshi);
+    if(shuzi2!=0.0){
+
+        jisuan(zifu2);
+    }
+}
