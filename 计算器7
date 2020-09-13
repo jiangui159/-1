@@ -1,0 +1,1280 @@
+.pro
+
+#-------------------------------------------------
+#
+# Project created by QtCreator 2020-09-08T15:12:21
+#
+#-------------------------------------------------
+
+QT       += core gui
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+TARGET = untitled2
+TEMPLATE = app
+
+# The following define makes your compiler emit warnings if you use
+# any feature of Qt which has been marked as deprecated (the exact warnings
+# depend on your compiler). Please consult the documentation of the
+# deprecated API in order to know how to port your code away from it.
+DEFINES += QT_DEPRECATED_WARNINGS
+
+# You can also make your code fail to compile if you use deprecated APIs.
+# In order to do so, uncomment the following line.
+# You can also select to disable deprecated APIs only up to a certain version of Qt.
+#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+
+CONFIG += c++11
+
+SOURCES += \
+        main.cpp \
+        mainwindow.cpp
+
+HEADERS += \
+        mainwindow.h
+
+FORMS += \
+        mainwindow.ui
+
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target
+
+
+mainwindow.h
+
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+
+#include <QMainWindow>
+#include <QtMath>
+#include <QStack>
+
+namespace Ui {
+class MainWindow;
+}
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
+
+private:
+    double shuzi1;
+    double shuzi2;
+    double result;
+    int jinzhi;
+    char zifu2;
+    int flag;
+    QString xianshi;
+    QString biaodashi;
+
+public:
+    QStack <double>a;
+    QStack <char>b;
+
+public:
+    void tojinzhi(int);
+    void dataa();
+    double jisuan(double,double,char);
+    void jisuan1(char);
+    int yueshu(int a,int b);
+    int beishu(int a,int b);
+    bool prio(QStack <char>&q,char x);
+    double jisuan2();
+
+
+private slots:
+    void on__1_clicked();
+
+    void on__2_clicked();
+
+    void on__3_clicked();
+
+    void on__4_clicked();
+
+    void on__5_clicked();
+
+    void on__6_clicked();
+
+    void on__7_clicked();
+
+    void on__8_clicked();
+
+    void on__9_clicked();
+
+    void on__0_clicked();
+
+    void on_point_clicked();
+
+    void on_leftk_clicked();
+
+    void on_rightk_clicked();
+
+    void on_AC_clicked();
+
+    void on_a_clicked();
+
+    void on_b_clicked();
+
+    void on_c_clicked();
+
+    void on_d_clicked();
+
+    void on_e_clicked();
+
+    void on_delete_2_clicked();
+
+    void on_add_clicked();
+
+    void on_equ_clicked();
+
+    void on_x_clicked();
+
+    void on_f_clicked();
+
+    void on_bin_clicked();
+
+    void on_sub_clicked();
+
+    void on_mul_clicked();
+
+    void on_divide_clicked();
+
+    void on_compare_clicked();
+
+    void on_yueshu_clicked();
+
+    void on_beishu_clicked();
+
+    void on_sin_clicked();
+
+    void on_cos_clicked();
+
+    void on_tan_clicked();
+
+    void on_fanbili_clicked();
+
+    void on_zhishu_clicked();
+
+    void on_lg_clicked();
+
+private:
+    Ui::MainWindow *ui;
+};
+
+#endif // MAINWINDOW_H
+
+
+main.cpp
+
+#include "mainwindow.h"
+#include <QApplication>
+
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+
+    return a.exec();
+}
+
+
+mainwindow.cpp
+
+
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include <QDebug>
+#include <QtMath>
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    dataa();
+
+
+}
+
+void MainWindow::dataa(){
+    shuzi1=0;
+    shuzi2=0;
+    result=0;
+    jinzhi=10;
+    zifu2='\0';
+    xianshi="";
+    biaodashi="";
+    flag=0;
+}
+
+double MainWindow::jisuan(double a,double b,char x)
+{
+    switch(x)
+    {
+    case '+': b+=a;
+        break;
+    case '-': b-=a;
+        break;
+    case '*': b*=a;
+        break;
+    case '/':b/=a;
+        break;
+    case '^':b=qPow(b,a);
+        break;
+    }
+    return b;
+}
+
+void MainWindow::jisuan1(char x)
+{
+    if(x=='y'){
+        int gongyue=yueshu(int(shuzi1),int(shuzi2));
+        xianshi+="最大公约数为";
+        ui->text->setText(xianshi);
+        QString str=QString::number(gongyue);
+        xianshi+=str;
+        ui->text->setText(xianshi);
+    }
+    if(x=='b'){
+        int gongbei=beishu(int(shuzi1),int(shuzi2));
+        xianshi+="最小公倍数为";
+        ui->text->setText(xianshi);
+        QString str=QString::number(gongbei);
+        xianshi+=str;
+        ui->text->setText(xianshi);
+    }
+    if(x=='c'){
+        if(shuzi1>shuzi2){
+            QString str=QString::number(shuzi1);
+            xianshi+=str;
+            ui->text->setText(xianshi);
+            xianshi+='>';
+            ui->text->setText(xianshi);
+            str=QString::number(shuzi2);
+            xianshi+=str;
+            ui->text->setText(xianshi);
+        }
+        else if (shuzi1==shuzi2) {
+            QString str=QString::number(shuzi1);
+            xianshi+=str;
+            ui->text->setText(xianshi);
+            xianshi+='=';
+            ui->text->setText(xianshi);
+            str=QString::number(shuzi2);
+            xianshi+=str;
+            ui->text->setText(xianshi);
+        }
+        else {
+            QString str=QString::number(shuzi1);
+            xianshi+=str;
+            ui->text->setText(xianshi);
+            xianshi+='<';
+            ui->text->setText(xianshi);
+            str=QString::number(shuzi2);
+            xianshi+=str;
+            ui->text->setText(xianshi);
+        }
+    }
+}
+
+int MainWindow::yueshu(int a, int b)
+{
+    int r;
+    for (r=a%b;r!=0;r=a%b) {
+        a=b;
+        b=r;
+    }
+    return b;
+}
+
+int MainWindow::beishu(int a, int b)
+{
+    int gongyue=yueshu(a,b);
+    int i;
+    for (i=1;;i++) {
+        if((gongyue*i)%a==0&&(gongyue*i)%b==0)break;
+    }
+    int gongbei=gongyue*i;
+    return gongbei;
+}
+
+bool MainWindow::prio(QStack<char> &q, char x)
+{
+    if (q.empty()||q.top()=='#'||(q.top()=='('&&x!=')')||x=='('||x=='^')
+        return true;
+    if (x=='#'||x==')'||q.top()=='^')
+        return false;
+    if (x=='s')
+    {
+        if (q.top()=='o'||q.top()=='t'||q.top()=='l'||q.top()=='f')  return false;
+        else return true;
+    }
+    if (x=='o')
+    {
+        if (q.top()=='s'||q.top()=='t'||q.top()=='l'||q.top()=='f')  return false;
+        else return true;
+    }
+    if (x=='t')
+    {
+        if (q.top()=='c'||q.top()=='s'||q.top()=='l'||q.top()=='f')  return false;
+        else return true;
+    }
+    if (x=='l')
+    {
+        if (q.top()=='c'||q.top()=='t'||q.top()=='s'||q.top()=='f')  return false;
+        else return true;
+    }
+    if (x=='f')
+    {
+        if (q.top()=='c'||q.top()=='t'||q.top()=='s'||q.top()=='l')  return false;
+        else return true;
+    }
+    if (x == '*' || x == '/' || x == '+' || x == '-')
+    {
+        if (q.top() == '+' || q.top() == '-') return true;
+        return false;
+    }
+    return true;
+}
+
+double MainWindow::jisuan2()
+{
+    char *s = biaodashi.toLocal8Bit().data();
+    int x = 0;
+    b.push('#');
+    for(int i = 0;i < strlen(s);i++)
+    {
+        if(isdigit(s[i]))
+        {
+            int Temp = int(s[i] - '0');
+             x = x * 10 + Temp;
+            if(!isdigit(s[i+1]))
+            {
+                a.push(x);
+                x = 0;
+            }
+        }
+        else
+        {
+            if(prio(b,s[i]))
+                b.push(s[i]);
+            else
+            {
+                if(b.top() == '(' && s[i] == ')')
+                {
+                    b.pop();
+                    continue;
+                }
+                while(!prio(b,s[i]))
+                {
+                    if(b.top() == 's')
+                    {
+                        double p = a.top();
+                        a.pop();
+                        a.push(qSin(p));
+                        b.pop();
+                        continue;
+                    }
+                    if(b.top() == 'o')
+                    {
+                        double p = a.top();
+                        a.pop();
+                        a.push(qCos(p));
+                        b.pop();
+                        continue;
+                    }
+                    if(b.top() == 't')
+                    {
+                        double p = a.top();
+                        a.pop();
+                        a.push(qTan(p));
+                        b.pop();
+                        continue;
+                    }
+                    if(b.top() == 'l')
+                    {
+                        double p = a.top();
+                        a.pop();
+                        a.push(qLn(p)/qLn(10));
+                        b.pop();
+                        continue;
+                    }
+                    if(b.top() == 'f')
+                    {
+                        double p = a.top();
+                        a.pop();
+                        a.push(1/p);
+                        b.pop();
+                        continue;
+                    }
+                    double m = a.top();
+                    a.pop();
+                    double n = a.top();
+                    a.pop();
+                    char top = b.top();
+                    b.pop();
+
+                    n =jisuan(m,n,top);
+
+                    a.push(n);
+
+                    if(b.top() == '#')
+                        break;
+                    if(s[i] == '#')
+                        continue;
+                    if(b.top() == '(' && s[i] == ')')
+                    {
+                        b.pop();
+                        break;
+                    }
+
+                }
+                if(s[i] != ')')
+                    b.push(s[i]);
+
+            }
+
+        }
+
+    }
+
+    return a.top();
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::tojinzhi(int n){
+
+    if(flag==0)
+    shuzi1=jinzhi*shuzi1+n;
+    else
+    shuzi2=jinzhi*shuzi2+n;
+
+
+}
+
+void MainWindow::on__1_clicked()
+{
+
+    tojinzhi(1);
+    xianshi +="1" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__2_clicked()
+{
+    tojinzhi(2);
+    xianshi +="2" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__3_clicked()
+{
+    tojinzhi(3);
+    xianshi +="3" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__4_clicked()
+{
+    tojinzhi(4);
+    xianshi +="4" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__5_clicked()
+{
+    tojinzhi(5);
+    xianshi +="5" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__6_clicked()
+{
+    tojinzhi(6);
+    xianshi +="6" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__7_clicked()
+{
+    tojinzhi(7);
+    xianshi +="7" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__8_clicked()
+{
+    tojinzhi(8);
+    xianshi +="8" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__9_clicked()
+{
+    tojinzhi(9);
+    xianshi +="9" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on__0_clicked()
+{
+    tojinzhi(0);
+    xianshi +="0" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_a_clicked()
+{
+    tojinzhi(10);
+    xianshi +="A" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_b_clicked()
+{
+    tojinzhi(11);
+    xianshi +="B" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_c_clicked()
+{
+    tojinzhi(12);
+    xianshi +="C" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_d_clicked()
+{
+    tojinzhi(13);
+    xianshi +="D" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_e_clicked()
+{
+    tojinzhi(14);
+    xianshi +="E" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_f_clicked()
+{
+    tojinzhi(15);
+    xianshi +="F" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_x_clicked()
+{
+    jinzhi=16;
+    xianshi +="0x" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_bin_clicked()
+{
+    jinzhi=2;
+    xianshi +="0b" ;
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_leftk_clicked()
+{
+    ui->text->insert("(");
+    xianshi+='(';
+    biaodashi+='(';
+}
+
+void MainWindow::on_rightk_clicked()
+{
+    ui->text->insert(")");
+    xianshi+=')';
+    biaodashi+=QString::number(shuzi1);
+    shuzi1=0;
+    biaodashi+=')';
+}
+
+void MainWindow::on_AC_clicked()
+{
+    ui->text->clear();
+    dataa();
+}
+
+void MainWindow::on_add_clicked()
+{
+    char *s = biaodashi.toLocal8Bit().data();
+    if(s[strlen(s)-1]!=')')
+    biaodashi+=QString::number(shuzi1);
+    shuzi1=0;
+    biaodashi+='+';
+    jinzhi=10;
+    xianshi+='+';
+    ui->text->setText(xianshi);
+
+}
+
+void MainWindow::on_sub_clicked()
+{
+    char *s = biaodashi.toLocal8Bit().data();
+    if(s[strlen(s)-1]!=')')
+    biaodashi+=QString::number(shuzi1);
+    shuzi1=0;
+    biaodashi+='-';
+    jinzhi=10;
+    xianshi +='-';
+    ui->text->setText(xianshi);
+
+}
+
+void MainWindow::on_mul_clicked()
+{
+    char *s = biaodashi.toLocal8Bit().data();
+    if(s[strlen(s)-1]!=')')
+    biaodashi+=QString::number(shuzi1);
+    shuzi1=0;
+    biaodashi+='*';
+    jinzhi=10;
+    xianshi +='*';
+    ui->text->setText(xianshi);
+
+}
+
+void MainWindow::on_divide_clicked()
+{
+    char *s = biaodashi.toLocal8Bit().data();
+    if(s[strlen(s)-1]!=')')
+    biaodashi+=QString::number(shuzi1);
+    shuzi1=0;
+    biaodashi+='/';
+    jinzhi=10;
+    xianshi +='/';
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_equ_clicked()
+{
+    if(zifu2=='c'||zifu2=='y'||zifu2=='b'){
+        xianshi+=' ';
+        ui->text->setText(xianshi);
+        jisuan1(zifu2);
+    }
+    else{
+        ui->text->insert("=");
+        char *s = biaodashi.toLocal8Bit().data();
+        if(s[strlen(s)-1]!=')')
+        biaodashi+=QString::number(shuzi1);
+        qDebug()<<biaodashi;
+        biaodashi += '#';
+        double x=jisuan2();
+        QString str = QString::number(x);
+        ui->text->insert(str);
+    }
+}
+
+void MainWindow::on_compare_clicked()
+{
+    zifu2='c';
+    flag=1;
+    xianshi+=" ";
+    ui->text->setText(xianshi);
+
+}
+
+void MainWindow::on_yueshu_clicked()
+{
+    zifu2='y';
+    flag=1;
+    xianshi+=" ";
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_beishu_clicked()
+{
+    zifu2='b';
+    flag=1;
+    xianshi+=" ";
+    ui->text->setText(xianshi);
+
+}
+
+void MainWindow::on_sin_clicked()
+{
+    biaodashi+='s';
+    shuzi1=0;
+    jinzhi=10;
+    xianshi+="sin";
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_cos_clicked()
+{
+    biaodashi+='o';
+    shuzi1=0;
+    jinzhi=10;
+    xianshi+="cos";
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_tan_clicked()
+{
+    biaodashi+='t';
+    shuzi1=0;
+    jinzhi=10;
+    xianshi+="tan";
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_fanbili_clicked()
+{
+      xianshi+='f';
+      ui->text->setText(xianshi);
+      biaodashi+='f';
+      shuzi1=0;
+      jinzhi=10;
+
+}
+
+void MainWindow::on_zhishu_clicked()
+{
+    char *s = biaodashi.toLocal8Bit().data();
+    if(s[strlen(s)-1]!=')')
+    biaodashi+=QString::number(shuzi1);
+    biaodashi+='^';
+    shuzi1=0;
+    jinzhi=10;
+    xianshi+='^';
+    ui->text->setText(xianshi);
+}
+
+void MainWindow::on_lg_clicked()
+{
+    ///zifu2='l';
+    xianshi+="lg";
+    biaodashi+='l';
+    shuzi1=0;
+    jinzhi=10;
+    ui->text->setText(xianshi);
+}
+
+
+mainwindow.ui
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>440</width>
+    <height>335</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QLineEdit" name="text">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>401</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="a">
+    <property name="geometry">
+     <rect>
+      <x>12</x>
+      <y>72</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>A</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="b">
+    <property name="geometry">
+     <rect>
+      <x>93</x>
+      <y>72</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>B</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="c">
+    <property name="geometry">
+     <rect>
+      <x>174</x>
+      <y>72</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>C</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="d">
+    <property name="geometry">
+     <rect>
+      <x>255</x>
+      <y>72</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>D</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="e">
+    <property name="geometry">
+     <rect>
+      <x>336</x>
+      <y>72</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>E</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="yueshu">
+    <property name="geometry">
+     <rect>
+      <x>255</x>
+      <y>101</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>公约数</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="_9">
+    <property name="geometry">
+     <rect>
+      <x>255</x>
+      <y>159</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>9</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="rightk">
+    <property name="geometry">
+     <rect>
+      <x>255</x>
+      <y>130</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>)</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="_3">
+    <property name="geometry">
+     <rect>
+      <x>255</x>
+      <y>217</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>3</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="_6">
+    <property name="geometry">
+     <rect>
+      <x>255</x>
+      <y>188</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>6</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f">
+    <property name="geometry">
+     <rect>
+      <x>255</x>
+      <y>246</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>F</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="divide">
+    <property name="geometry">
+     <rect>
+      <x>336</x>
+      <y>130</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>/</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="beishu">
+    <property name="geometry">
+     <rect>
+      <x>336</x>
+      <y>101</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>公倍数</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sub">
+    <property name="geometry">
+     <rect>
+      <x>336</x>
+      <y>188</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="add">
+    <property name="geometry">
+     <rect>
+      <x>336</x>
+      <y>217</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="mul">
+    <property name="geometry">
+     <rect>
+      <x>336</x>
+      <y>159</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>*</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="equ">
+    <property name="geometry">
+     <rect>
+      <x>336</x>
+      <y>246</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>=</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="bin">
+    <property name="geometry">
+     <rect>
+      <x>12</x>
+      <y>130</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>bin</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sin">
+    <property name="geometry">
+     <rect>
+      <x>12</x>
+      <y>101</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>sin</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="zhishu">
+    <property name="geometry">
+     <rect>
+      <x>12</x>
+      <y>217</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>x^y</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="x">
+    <property name="geometry">
+     <rect>
+      <x>12</x>
+      <y>159</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>hex</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="fanbili">
+    <property name="geometry">
+     <rect>
+      <x>12</x>
+      <y>188</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>1/x</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="lg">
+    <property name="geometry">
+     <rect>
+      <x>12</x>
+      <y>246</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>lg</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="cos">
+    <property name="geometry">
+     <rect>
+      <x>93</x>
+      <y>101</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>cos</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="AC">
+    <property name="geometry">
+     <rect>
+      <x>93</x>
+      <y>130</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>AC</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="_7">
+    <property name="geometry">
+     <rect>
+      <x>93</x>
+      <y>159</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>7</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="_1">
+    <property name="geometry">
+     <rect>
+      <x>93</x>
+      <y>217</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="_4">
+    <property name="geometry">
+     <rect>
+      <x>93</x>
+      <y>188</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>4</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="compare">
+    <property name="geometry">
+     <rect>
+      <x>93</x>
+      <y>246</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>compare</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="tan">
+    <property name="geometry">
+     <rect>
+      <x>174</x>
+      <y>101</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>tan</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="leftk">
+    <property name="geometry">
+     <rect>
+      <x>174</x>
+      <y>130</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>(</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="_5">
+    <property name="geometry">
+     <rect>
+      <x>174</x>
+      <y>188</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>5</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="_8">
+    <property name="geometry">
+     <rect>
+      <x>174</x>
+      <y>159</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>8</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="_2">
+    <property name="geometry">
+     <rect>
+      <x>174</x>
+      <y>217</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="_0">
+    <property name="geometry">
+     <rect>
+      <x>174</x>
+      <y>246</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>440</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
